@@ -17,7 +17,7 @@ const SalePersonSchema = new Schema({
 const SalesPersonTable = mongoose.model('SalePersonTable', SalePersonSchema);
       
 
-module.exports = {
+// module.exports = {
 //     SalePersonTable: SaleOrderTable
-    SalePersonTable: SalePersonTable
-}
+// }
+module.exports = SalePersonTable;
