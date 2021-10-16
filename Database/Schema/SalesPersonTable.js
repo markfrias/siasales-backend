@@ -13,8 +13,11 @@ const SalePersonSchema = new Schema({
 
 }),
 
-const SalesPersonTable = mongoose.model('SalePersonTable', userSchema);
+// const SalesPersonTable = mongoose.model('SalePersonTable', userSchema);
+const SalesPersonTable = mongoose.model('SalePersonTable', SalePersonSchema);
+      
 
 module.exports = {
-    SalePersonTable: SaleOrderTable
+//     SalePersonTable: SaleOrderTable
+    SalePersonTable: SalePersonTable
 }
