@@ -2,7 +2,11 @@ const mongoose = require('mongoose')
 const {Schema} = mongoose;
 
 const customerSchema = new Schema({
-    streetAdress: {
+    companyName: {
+        type: String,
+        required: true
+    },
+    streetAddress: {
         type: String,
         required: true
     },    
@@ -27,8 +31,9 @@ const customerSchema = new Schema({
     },   
     status      : {
         type: Boolean
-}
-})
+    },
+    
+}, {timestamps: true})
 
 
 const Customer = mongoose.model('Customer', customerSchema);

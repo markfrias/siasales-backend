@@ -3,6 +3,9 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const { SalesPerson } = require('./models/salesperson');
+const { Customer } = require('./models/customer');
+var customersRouter = require('./api-routes/customer.route');
+const { appendFileSync } = require('fs');
 
 
 
@@ -36,4 +39,27 @@ app.post('/user', (req, res) => {
         res.json({message: "Account saved", status: "Success"})
     })
     
+});
+
+
+app.post('/customer', (req, res) => {
+    // Assign field data to variables
+    let customerDetails = {
+        companyName: req.body.companyName,
+        streetAddress: req.body.streetAddress,
+        city: req.body.city,
+        province: req.body.province,
+        emailAddress: req.body.emailAddress,
+        phoneNumber: req.body.phoneNumber,
+        industry: req.body.industry,
+        status: req.body.status
+    }
+    Customer.create(customerDetails, (err, small) => {
+        if (err) return res.json({message: err, status: "Error"});
+        res.json({message: "Customer added", status: "Success"});
+    })
 })
+
+// Routes
+app.use('/customers', customersRouter);
+app.use('/customer', customersRouter);
