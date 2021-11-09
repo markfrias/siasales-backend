@@ -24,6 +24,14 @@ const addUser = async(req, res) => {
     })
 }
 
+// Fetches specific customer by ID and returns customer details
+const getUser = async(req,res) => {
+    Customer.findById(req.query.id, (err, docs) => {
+        if (err) return res.json({message: err, status: "Error"});
+        res.json(docs);
+    })
+}
+
 module.exports = {
-    getUsers, addUser,
+    getUsers, addUser, getUser
 }

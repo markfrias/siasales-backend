@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const {Schema} = mongoose;
 
 const salesOrderSchema = new Schema({
-    date                     : Date, 
+    // Use timestamp date of creation data for date, instead
     customerId              : {
         type: Number,
         required: true
@@ -32,24 +32,47 @@ const salesOrderSchema = new Schema({
     orderDetails           : { 
         discount: Number,
         taxRate: Number,
+        shippingFee: Number,
         otherFees: Number
     },
     status                   :  {
-         type:  Boolean    
+         type:  Boolean,
+         default: true   
     ,
+    },
+
+    processingStatus : {
+        type: String,
+        default: "Processing"
     },
     items: [
         {
-            itemId: Number,
-            itemName: String,
-            itemDescription: String,
-            quantity: Number,
-            unitPrice: Number,
-
+            itemId: {
+                type: Number,
+                required: true,
+            },
+            itemName: {
+                type: String,
+                required: true,
+            },
+            itemDescription: {
+                type: String,
+                required: true,
+            },
+            quantity: {
+                type: Number,
+                required: true,
+            },
+            unitPrice: {
+                type: Number,
+                required: true,
+            },
         }
     ]
 
-})
+},
+{timestamps: true}
+)
 
 
 const SalesOrder = mongoose.model('SalesOrder', salesOrderSchema);
