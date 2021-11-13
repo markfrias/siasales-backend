@@ -12,6 +12,7 @@ const salesOrder = require('./models/salesOrder');
 
 
 const app = express();
+app.use(cors());
 app.use(express.json())
 app.use(express.urlencoded({extended : false}));
 
@@ -27,7 +28,7 @@ mongoose.connect('mongodb+srv://dbAdmin:Ah%23%21TV6H@cluster0.d1664.mongodb.net/
 }).catch((error) => console.log(error));
 
 
-app.listen(3000, () => console.log ('Server is running on port 3000...'));
+app.listen(8000, () => console.log (`Server is running on port ${8000} ...`));
 app.post('/user', (req, res) => {
     let newUser = {
        firstName: "Anthony",

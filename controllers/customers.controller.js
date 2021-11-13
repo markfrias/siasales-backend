@@ -2,6 +2,7 @@ const { Customer } = require("../models/customer");
 const getUsers = async(req, res) => {
     Customer.find({}, (err, docs) => {
         if (docs) {return res.json(docs)}
+        console.log("Request yeah")
         res.json({message: "Error", error: err});
     })
 }
