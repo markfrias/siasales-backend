@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 
 //enter User
-const User = require('../models/salesperson');
+const { User } = require('../models/salesperson');
 
 //login handler
 const login = async (req, res)=>{
