@@ -28,4 +28,6 @@ const salesPersonSchema = new Schema({
 })
 const SalesPerson = mongoose.model ('SalesPerson', salesPersonSchema)
 
-module.exports = SalesPerson
+module.exports = {
+    SalesPerson: SalesPerson
+};
