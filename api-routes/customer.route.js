@@ -1,7 +1,7 @@
 const express = require('express');
 const customerControllers = require('../controllers/customers.controller');
 const router = express.Router();
-const { ensureAuthenticated } = require('../config/auth');
+const { ensureAuthenticated } = require('../controllers/auth');
 
 router.get("/", ensureAuthenticated, customerControllers.getUsers);
 router.post("/", ensureAuthenticated, customerControllers.addUser);
