@@ -1,7 +1,7 @@
 const express = require('express');
 const salesOrderController = require('../controllers/salesOrders.controller');
 const router = express.Router();
-const { ensureAuthenticated } = require('../config/auth');
+const { ensureAuthenticated } = require('../controllers/auth');
 
 router.post("/", ensureAuthenticated, salesOrderController.addSalesOrder);
 router.get("/", ensureAuthenticated, salesOrderController.getSalesOrders);
