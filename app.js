@@ -6,13 +6,9 @@ const { appendFileSync } = require('fs');
 const passport = require('passport');
 const session = require('express-session');
 
-// const { SalesPerson } = require('./models/salesperson');
-const { Customer } = require('./models/customer');
-var customersRouter = require('./api-routes/customer.route');
-var salesOrderRouter = require('./api-routes/salesOrder.route');
+const customersRouter = require('./api-routes/customer.route');
+const salesOrderRouter = require('./api-routes/salesOrder.route');
 const usersRouter = require('./api-routes/users.route');
-const salesOrder = require('./models/salesOrder');
-
 
 const app = express();
 
@@ -20,7 +16,6 @@ const app = express();
 app.use(cors());
 app.use(express.json())
 app.use(express.urlencoded({extended : false}));
-
 
 //connection to db
 mongoose.connect('mongodb+srv://dbAdmin:Ah%23%21TV6H@cluster0.d1664.mongodb.net/randochatapp?retryWrites=true&w=majority', {
@@ -50,5 +45,5 @@ app.use('/salesorder', salesOrderRouter);
 app.use('/users/', usersRouter);
 
 
-//starting the server
+//start the server
 app.listen(8000, () => console.log (`Server is running on port ${8000} ...`));
