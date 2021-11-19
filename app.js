@@ -12,6 +12,9 @@ const usersRouter = require('./api-routes/users.route');
 
 const app = express();
 
+//passport config
+require('./config/passport')(passport);
+
 //middlewares
 app.use(cors());
 app.use(express.json())
