@@ -2,21 +2,11 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 
 //enter User
-const { User } = require('../models/salesperson');
+const { SalesPerson } = require('../models/salesperson');
 
 //login handler
-const login = async (req, res)=>{
-    passport.authenticate("local", function(err, user, info) {
-        if (err) {
-          return res.status(404).json(err);
-        }
-        if (user) {
-          res.status(200);
-          res.json(user);
-        } else {
-          res.status(401).json(info);
-        }
-      })(req, res);
+const login =  (req, res)=>{
+    res.json({message: "Login successful"})
 };
 
 //register handler
@@ -40,7 +30,7 @@ const register = async (req, res)=>{
         res.json({errors, firstName, lastName, userName, phoneNumber});
     } else {
         //validation passed
-        User.findOne({ 
+        SalesPerson.findOne({ 
             userName : userName
         })
         .then(user => {
@@ -49,7 +39,7 @@ const register = async (req, res)=>{
                 res.json({ errors, firstName, lastName, phoneNumber});
             }
             else{
-                const newUser = new User({firstName, lastName, userName, 
+                const newUser = new SalesPerson({firstName, lastName, userName, 
                     password, phoneNumber});
                 //hash password
                 bcrypt.genSalt(10, (err, salt) => 
