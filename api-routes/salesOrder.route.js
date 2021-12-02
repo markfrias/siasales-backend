@@ -1,11 +1,12 @@
 const express = require('express');
 const salesOrderController = require('../controllers/salesOrders.controller');
 const router = express.Router();
+const { ensureAuthenticated } = require('../controllers/auth.controller');
 
-router.post("/", salesOrderController.addSalesOrder);
-router.get("/", salesOrderController.getSalesOrders);
-router.get("/s", salesOrderController.getSalesOrder);
-router.put('/updateProcessing', salesOrderController.updateSalesOrderProcessing);
-router.delete('/delete', salesOrderController.deleteSalesOrder);
+router.post("/", ensureAuthenticated, salesOrderController.addSalesOrder);
+router.get("/", ensureAuthenticated, salesOrderController.getSalesOrders);
+router.get("/s", ensureAuthenticated, salesOrderController.getSalesOrder);
+router.put('/updateProcessing', ensureAuthenticated, salesOrderController.updateSalesOrderProcessing);
+router.delete('/delete', ensureAuthenticated, salesOrderController.deleteSalesOrder);
 
 module.exports = router;
