@@ -1,5 +1,7 @@
 const dotenv = require('dotenv').config()
 const express = require('express');
+const {auth} = require('../controllers/jwt.controller')
+
 
 const passport = require('passport');
 const router = express.Router();

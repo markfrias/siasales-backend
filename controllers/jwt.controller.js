@@ -26,7 +26,7 @@ const auth = function (req, res, next) {
 
     let jwtoken = req.headers.authorization.slice(7);
 
-    jwt.verify(jwtoken, /*process.env.JWT_SECRET*/ "height", (err, decoded) => {
+    jwt.verify(jwtoken, process.env.JWT_SECRET, (err, decoded) => {
         if (err){
             console.log(err)
             return res.status(401).send("Incorrect credentials");

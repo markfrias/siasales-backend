@@ -13,7 +13,7 @@ const login =  (req, res)=>{
 
 // jwt login handler
 const signin = (req, res) => {
-    let token = jwt.sign({ sub: req.body.userName }, /*process.env.JWT_SECRET*/ "height", { expiresIn: 3600 });
+    let token = jwt.sign({ sub: req.body.userName }, process.env.JWT_SECRET, { expiresIn: 3600 });
     authenticate(req.body, res, token)
     
 }
