@@ -2,19 +2,21 @@ const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
 
 // Load User model
-const User = require('../models/salesperson');
+const {SalesPerson} = require('../models/salesperson');
 
 module.exports = function(passport) {
   passport.use(
-    new LocalStrategy({ usernameField: 'userName', passwordField : 'password'}, (userName, password, done) => {
+    new LocalStrategy({ usernameField: 'userName', passwordField : 'password', session: true}, (username, password, done) => {
       // Match user
-      User.findOne({
-        userName: userName
+      //console.log("hello")
+      SalesPerson.findOne({
+        userName: username
       }).then(user => {
         if (!user) {
+          console.log("Not a user")
           return done(null, false, { message: 'That Username is not registered' });
         }
-
+        console.log(user)
         // Match password
         bcrypt.compare(password, user.password, (err, isMatch) => {
           if (err) throw err;
@@ -24,6 +26,8 @@ module.exports = function(passport) {
             return done(null, false, { message: 'Password incorrect' });
           }
         });
+
+        
       });
     })
   );
@@ -33,7 +37,7 @@ module.exports = function(passport) {
   });
 
   passport.deserializeUser(function(id, done) {
-    User.findById(id, function(err, user) {
+    SalesPerson.findById(id, function(err, user) {
       done(err, user);
     });
   });

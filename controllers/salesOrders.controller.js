@@ -5,7 +5,7 @@ const addSalesOrder = async(req, res) => {
     
     try {
 
-        let items = req.body.items;
+        let items = req.body.tableItems;
         let itemz = [];
         console.log(items)
         items.forEach((data) => {
@@ -27,17 +27,17 @@ const addSalesOrder = async(req, res) => {
             customerRepresentativeId: req.body.customerRepresentativeId,
             salesPersonId: req.body.salesPersonId,
             shippingDetails: {
-                shippingMethod: req.body.shippingDetails.shippingMethod,
-                shippingVehicle: req.body.shippingDetails.shippingVehicle,
-                shippingDate: new Date(req.body.shippingDetails.shippingDate),
-                deliveryDate: new Date(req.body.shippingDetails.deliveryDate),
-                paymentChoice: req.body.shippingDetails.paymentChoice,
-                billingStreetAddress: req.body.shippingDetails.billingStreetAddress,
-                billingCity: req.body.shippingDetails.billingCity,
-                billingProvince: req.body.shippingDetails.billingProvince,
-                shippingStreetAddress: req.body.shippingDetails.shippingStreeetAddress,
-                shippingCity: req.body.shippingDetails.shippingCity,
-                shippingProvince: req.body.shippingDetails.shippingProvince
+                shippingMethod: req.body.shippingMethod,
+                shippingVehicle: req.body.shippingVehicle,
+                shippingDate: new Date(req.body.shippingDate),
+                deliveryDate: new Date(req.body.deliveryDate),
+                paymentChoice: req.body.paymentChoice,
+                billingStreetAddress: req.body.billingStreetAddress,
+                billingCity: req.body.billingCity,
+                billingProvince: req.body.billingProvince,
+                shippingStreetAddress: req.body.shippingStreetAddress,
+                shippingCity: req.body.shippingCity,
+                shippingProvince: req.body.shippingProvince
             },
             orderDetails : {
                 discount: req.body.orderDetails.discount,
@@ -53,7 +53,7 @@ const addSalesOrder = async(req, res) => {
         console.log(salesOrderDetails)
         SalesOrder.create(salesOrderDetails, (err, small) => {
             if (err) return res.json({message: err, status: "Error"});
-            res.json({message: "Sales order added", status: "Success"});
+            res.json({message: "Sales order added", status: "Success", small});
             
         })
     } catch (e) {
@@ -137,11 +137,12 @@ const getSalesOrders = async(req, res) => {
 // Fetches specific sales order by ID and returns specific sales order details
 const getSalesOrder = async(req, res) => {
     try {
+        console.log(req.query.id);
         const aggregateValues = await  SalesOrder.aggregate([
             {
-                $match: {_id: req.body._id}  
+                $match: {_id: req.query.id}  
             },
-            {   
+            /*{   
                 $project: {
                     "_id": "$_id",
                     "subtotal": {
@@ -199,27 +200,28 @@ const getSalesOrder = async(req, res) => {
                        }
                     }
                 }
-            }
+            }*/
         ])
+        console.log(aggregateValues)
         SalesOrder.findById(req.query.id, (err, docs) => {
             
-            if (err) return res.json({message: "Cannot fetch specific user", status: "Error"});
-            res.json({obj: docs, agg: aggregateValues})
+            if (err) return res.json({message: "Cannot fetch specific user", status: "User does not exist"});
+            res.json({obj: docs, agg: aggregateValues, status: "Success"})
         })
 
         
     }
     catch (err) {
         console.error(err);
-        res.json({message: "We can't fetch your requests at the moment"})
+        res.json({message: "We can't fetch your requests at the moment", status: "Error"})
     }
     
 }
 
 // Updates the processing status of the sales order
 const updateSalesOrderProcessing = async(req, res) => {
-    SalesOrder.updateOne({_id: req.body._id}, {
-        processingStatus: req.body.processingStatus
+    SalesOrder.updateOne({_id: req.query.id}, {
+        processingStatus: req.query.processingStatus
     }, (err, writeOpResult) => {
         console.log(writeOpResult)
         if (err) res.json({message: "Error"})
