@@ -1,5 +1,7 @@
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
+const {authenticate} = require('../controllers/jwt.controller');
 
 //enter User
 const { SalesPerson } = require('../models/salesperson');
@@ -8,6 +10,13 @@ const { SalesPerson } = require('../models/salesperson');
 const login =  (req, res)=>{
     res.json({message: "Login successful", status: "Success"})
 };
+
+// jwt login handler
+const signin = (req, res) => {
+    let token = jwt.sign({ sub: req.body.userName }, /*process.env.JWT_SECRET*/ "height", { expiresIn: 3600 });
+    authenticate(req.body, res, token)
+    
+}
 
 //register handler
 const register = async (req, res)=>{
@@ -67,4 +76,4 @@ const logout = async (req, res) =>{
     res.json('log out');
 };
 
-module.exports = {login, register, logout};
+module.exports = {login, register, logout, signin};
