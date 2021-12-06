@@ -6,7 +6,7 @@ const { SalesPerson } = require('../models/salesperson');
 
 //login handler
 const login =  (req, res)=>{
-    res.json({message: "Login successful"})
+    res.json({message: "Login successful", status: "Success"})
 };
 
 //register handler
@@ -27,7 +27,7 @@ const register = async (req, res)=>{
         errors.push({msg : 'password should be at least 6 characters'})
     }
     if(errors.length > 0){
-        res.json({errors, firstName, lastName, userName, phoneNumber});
+        res.json({errors, firstName, lastName, userName, phoneNumber, status: "Missing credentials or wrong input"});
     } else {
         //validation passed
         SalesPerson.findOne({ 
@@ -36,7 +36,7 @@ const register = async (req, res)=>{
         .then(user => {
             if(user){
                 errors.push({msg : 'Username already used'})
-                res.json({ errors, firstName, lastName, phoneNumber});
+                res.json({ errors, firstName, lastName, phoneNumber, status: "Username already used"});
             }
             else{
                 const newUser = new SalesPerson({firstName, lastName, userName, 
@@ -50,14 +50,14 @@ const register = async (req, res)=>{
                         //save newUser
                         newUser.save()
                         .then(user => {
-                            res.json('new user saved');
+                            res.json({status: "Success"});
                         })
-                        .catch(err => res.status(400).json('Error: ' +err));
+                        .catch(err => res.status(400).json({error: err, status: "Error"}));
                     })
                 );
             }
         })
-        .catch(err => res.status(400).json('Error: ' +err));
+        .catch(err => res.status(400).json({error:  err, status: "Error"}));
     }
 };
 

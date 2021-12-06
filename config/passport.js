@@ -8,7 +8,7 @@ module.exports = function(passport) {
   passport.use(
     new LocalStrategy({ usernameField: 'userName', passwordField : 'password', session: true}, (username, password, done) => {
       // Match user
-      console.log("hello")
+      //console.log("hello")
       SalesPerson.findOne({
         userName: username
       }).then(user => {

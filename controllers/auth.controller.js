@@ -3,6 +3,6 @@ module.exports = {
         if(req.isAuthenticated()){
             return next();
         }
-        res.json('Not authenticated');
+        res.json({message: "Not authenticated", status: "Unauthorized"});
     }
 }
