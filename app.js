@@ -6,8 +6,8 @@ const { appendFileSync } = require('fs');
 const passport = require('passport');
 const session = require('express-session');
 
-const port = process.env.port || 4000;
-const dbUri = process.env.dbUri;
+const port = process.env.PORT || 4000;
+const dbUri = process.env.DBURI;
 
 const customersRouter = require('./api-routes/customer.route');
 const salesOrderRouter = require('./api-routes/salesOrder.route');
@@ -25,7 +25,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended : false}));
 
 //connection to db
-mongoose.connect(dbUri, {
+mongoose.connect(process.env.DBURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 }).then(() => {
